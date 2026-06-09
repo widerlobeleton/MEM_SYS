@@ -1,0 +1,52 @@
+#pragma once
+
+#include "CoreMinimal.h"
+#include "ProceduralGenerationTypes.generated.h"
+
+// Enumeración de flags para identificar qué tipo de objeto decorativo colocar
+UENUM(BlueprintType)
+enum class EDecorationType : uint8
+{
+    None         UMETA(DisplayName = "Ninguno"),
+    CeilingLight UMETA(DisplayName = "Luz de Techo"),
+    WallOutlet   UMETA(DisplayName = "Enchufe de Pared"),
+    EnemySpawn   UMETA(DisplayName = "Punto de Enemigo"),
+};
+
+// Estructura ligera que representa un objeto decorativo aprobado matemáticamente
+USTRUCT(BlueprintType)
+struct FDecorFlagData
+{
+    GENERATED_BODY()
+
+    UPROPERTY()
+    EDecorationType Type;
+
+    UPROPERTY()
+    FVector RelativeLocation; // Coordenada exacta calculada en la Capa 2
+
+    UPROPERTY()
+    FRotator Rotation;
+
+    FDecorFlagData() : Type(EDecorationType::None), RelativeLocation(FVector::ZeroVector), Rotation(FRotator::ZeroRotator) {}
+    FDecorFlagData(EDecorationType InType, FVector InLoc, FRotator InRot) : Type(InType), RelativeLocation(InLoc), Rotation(InRot) {}
+};
+
+// El "Contenedor de Habitación" que viaja del algoritmo al renderizador
+USTRUCT(BlueprintType)
+struct FProcessedRoomData
+{
+    GENERATED_BODY()
+
+    UPROPERTY()
+    FVector Center;
+
+    UPROPERTY()
+    FVector Extents;
+
+
+
+    
+    UPROPERTY()
+    TArray<FDecorFlagData> ApprovedDecorations;
+};s
